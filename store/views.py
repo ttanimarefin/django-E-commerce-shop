@@ -86,3 +86,11 @@ def signup(request):
     else:
         return registerUser(request)
         # vali
+
+
+
+
+def login(request):
+    if request.method=='GET':
+        return render(request,'login.html')
+    
