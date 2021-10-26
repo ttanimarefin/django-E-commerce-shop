@@ -1,3 +1,4 @@
+from django.core.validators import _ErrorMessage
 from django.http.response import HttpResponse
 from django.shortcuts import render
 
@@ -31,7 +32,19 @@ def signup(request):
         phone=postData.get('phone')
         email=postData.get('email')
         password=postData.get('password')
-        customer=Customer(first_name=first_name,
+
+        #vali
+        _ErrorMessage=None
+        if(not first_name):
+               _ErrorMessage="First Name Required !"
+        elif first_name:
+            if len(first_name)<4:
+                _ErrorMessage='First Name must be 4 char long'
+
+        #save
+        if not  _ErrorMessage:
+
+          customer=Customer(first_name=first_name,
                           last_name=last_name,
                           phone=phone,
                           email=email,
@@ -39,8 +52,9 @@ def signup(request):
         
         
         
-        )
-        customer.register()
+             )
+          customer.register()
+        else:
 
-        return HttpResponse("signup")
+           return render(request,'signup.html',{'error':_ErrorMessage})
     
