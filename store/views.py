@@ -9,7 +9,8 @@ from django.shortcuts import redirect, render
 from store.models.customer import Customer
 from .models.product import Product
 from .models.category import Category
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ViewDoesNotExist
+from django.views import View
 
 # Create your views here.
 
@@ -92,13 +93,11 @@ def signup(request):
         # vali
 
 
-
-
-def login(request):
-    if request.method=='GET':
+class Login(View):
+    def get(self,request):
         return render(request,'login.html')
 
-    else:
+    def post(self,request):
         email=request.POST.get('email')
         password=request.POST.get('password')
         customer=Customer.get_customer_by_email(email)
@@ -114,4 +113,8 @@ def login(request):
             ErrorMessage='Email or Pass invalid'
 
         return render(request,'login.html',{'error':ErrorMessage})
+
+
+
+        
     
