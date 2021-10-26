@@ -1,3 +1,4 @@
+from django.core.checks.messages import ERROR
 from django.core.validators import _ErrorMessage
 from django.db.models.expressions import Value
 from django.http.response import HttpResponse
@@ -46,20 +47,31 @@ def signup(request):
 
         }
         _ErrorMessage = None
+
+        customer = Customer(first_name=first_name,
+                                last_name=last_name,
+                                phone=phone,
+                                email=email,
+                                password=password )
+
+
         if(not first_name):
             _ErrorMessage = "First Name Required !"
         elif first_name:
             if len(first_name) < 4:
                 _ErrorMessage = 'First Name must be 4 char long'
-
+        elif customer.isExists():
+            
+        
+       
+        
+            _ErrorMessage='Email address Already registered'
+        
+        
         # save
         if not _ErrorMessage:
             print(first_name, last_name, phone, email, password)
-            customer = Customer(first_name=first_name,
-                                last_name=last_name,
-                                phone=phone,
-                                email=email,
-                                password=password )
+            
 
 
 
