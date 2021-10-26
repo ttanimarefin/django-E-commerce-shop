@@ -1,11 +1,15 @@
+from enum import Flag
 from django.core.checks.messages import ERROR
+
 from django.db.models.expressions import Value
+from django.db.utils import Error
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 
 from store.models.customer import Customer
 from .models.product import Product
 from .models.category import Category
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 
@@ -93,4 +97,21 @@ def signup(request):
 def login(request):
     if request.method=='GET':
         return render(request,'login.html')
+
+    else:
+        email=request.POST.get('email')
+        password=request.POST.get('password')
+        customer=Customer.get_customer_by_email(email)
+        ErrorMessage=None
+        if customer:
+
+            flag=  password(password)
+            if flag:
+                return redirect('homepage')
+            else:
+                ErrorMessage='Email or Pass invalid'
+        else:
+            ErrorMessage='Email or Pass invalid'
+
+        return render(request,'login.html',{'error':ErrorMessage})
     
