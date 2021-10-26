@@ -1,7 +1,7 @@
 from django.core.validators import _ErrorMessage
 from django.db.models.expressions import Value
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from store.models.customer import Customer
 from .models.product import Product
@@ -59,12 +59,14 @@ def signup(request):
                                 last_name=last_name,
                                 phone=phone,
                                 email=email,
-                                password=password
+                                password=password )
 
 
 
-                                )
+                                
             customer.register()
+
+            return redirect('homepage')
         else:
             data= {
                 'error': _ErrorMessage ,
