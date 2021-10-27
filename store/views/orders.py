@@ -6,7 +6,7 @@ from django.views import View
 
 from store.models.product import Product
 from store.models.orders import Order
-from store.middlewares.auth import auth_middleware
+# from store.middlewares.auth import auth_middleware
 
 class OrderView(View):
 
